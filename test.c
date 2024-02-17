@@ -1,6 +1,5 @@
 // #include "minishell.h"
 #include <libc.h>
-#include "libft/inc/libft.h"
     /*
         親プロセスが子プロセスの終了状態を取得しなかった場合wait
         ()
