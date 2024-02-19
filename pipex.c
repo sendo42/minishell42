@@ -57,79 +57,79 @@
 
 */
 
-int main(void){
-    int fd[2];
-    int tmp_fd;
-    int pid;
-    char buf[1024];
+// int main(void){
+//     int fd[2];
+//     int tmp_fd;
+//     int pid;
+//     char buf[1024];
 
-    pipe(fd);
-    pid = fork();
-    if(pid > 0)
-    {
-        tmp_fd =fd[0];
-        close(fd[1]);
-        // close(fd[0]);ここ閉めるとやばい
-    }
-    else if(pid == 0)
-    {
-        printf("C, pid: %d\n",pid);
-        char *send = "hello from first";
-        close(fd[0]);
-        dup2(fd[1],1);
-        close(fd[1]);
-        printf("%s\n",send);
-        close(1);
-        exit(0);
-    }
-    printf("fd : %d\n",tmp_fd);
-    pipe(fd);
-    pid = fork();
-    if(pid > 0)
-    {
-        tmp_fd =fd[0];
-        // close(fd[0]);
-        close(fd[1]);
-    }
-    else if(pid == 0)
-    {
-        dup2(tmp_fd,0);
-        close(tmp_fd);
-        dup2(fd[1],1);
-        close(fd[1]);
-        while(read(0,buf,1) > 0)
-            write(1,buf,1);
-        close(fd[1]);
-        // printf("bbb\n");
-        close(0);
-        exit(0);
-    }
-    printf("fd : %d\n",tmp_fd);
-    pipe(fd);
-    pid = fork();
-    if(pid > 0)
-    {
-        tmp_fd =fd[0];
-        // close(fd[0]);
-        close(fd[1]);
-    }
-    else if(pid == 0)
-    {
-        dup2(tmp_fd,0);
-        close(tmp_fd);
-        // dup2(fd[1],1);
-        // close(fd[1]);
-        while(read(0,buf,1) > 0)
-            write(1,buf,1);
-        close(fd[1]);
-        // printf("bbb\n");
-        close(0);
-        exit(0);
-    }
+//     pipe(fd);
+//     pid = fork();
+//     if(pid > 0)
+//     {
+//         tmp_fd =fd[0];
+//         close(fd[1]);
+//         // close(fd[0]);ここ閉めるとやばい
+//     }
+//     else if(pid == 0)
+//     {
+//         printf("C, pid: %d\n",pid);
+//         char *send = "hello from first";
+//         close(fd[0]);
+//         dup2(fd[1],1);
+//         close(fd[1]);
+//         printf("%s\n",send);
+//         close(1);
+//         exit(0);
+//     }
+//     printf("fd : %d\n",tmp_fd);
+//     pipe(fd);
+//     pid = fork();
+//     if(pid > 0)
+//     {
+//         tmp_fd =fd[0];
+//         // close(fd[0]);
+//         close(fd[1]);
+//     }
+//     else if(pid == 0)
+//     {
+//         dup2(tmp_fd,0);
+//         close(tmp_fd);
+//         dup2(fd[1],1);
+//         close(fd[1]);
+//         while(read(0,buf,1) > 0)
+//             write(1,buf,1);
+//         close(fd[1]);
+//         // printf("bbb\n");
+//         close(0);
+//         exit(0);
+//     }
+//     printf("fd : %d\n",tmp_fd);
+//     pipe(fd);
+//     pid = fork();
+//     if(pid > 0)
+//     {
+//         tmp_fd =fd[0];
+//         // close(fd[0]);
+//         close(fd[1]);
+//     }
+//     else if(pid == 0)
+//     {
+//         dup2(tmp_fd,0);
+//         close(tmp_fd);
+//         // dup2(fd[1],1);
+//         // close(fd[1]);
+//         while(read(0,buf,1) > 0)
+//             write(1,buf,1);
+//         close(fd[1]);
+//         // printf("bbb\n");
+//         close(0);
+//         exit(0);
+//     }
 
-    int status;
-    waitpid(pid,&status,0);
-}
+//     int status;
+//     waitpid(pid,&status,0);
+// }
     // pipe(fd);
     // pid = fork();
     // if(pid > 0)

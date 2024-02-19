@@ -1,5 +1,6 @@
 // #include "minishell.h"
 #include <libc.h>
+#include "minishell.h"
     /*
         親プロセスが子プロセスの終了状態を取得しなかった場合wait
         ()
@@ -115,31 +116,32 @@ fd
 
 
 */
-int p_pipe_next(int *tmp_fd,int *fd)
-{
-    *tmp_fd =fd[0];
-    // close(fd[0]);
-    close(fd[1]);
-    return *tmp_fd;
-}
 
-void c_pipe_exe(char *cmd,int *tmp_fd, int *fd,int last_flag)
-{
-    char buf[1024];
+// int p_pipe_next(int *tmp_fd,int *fd)
+// {
+//     *tmp_fd =fd[0];
+//     // close(fd[0]);
+//     close(fd[1]);
+//     return *tmp_fd;
+// }
 
-    dup2(*tmp_fd,0);
-    close(*tmp_fd);
-    if(last_flag == 1)
-    {
-        dup2(fd[1],1);
-        close(fd[1]);
-    }
-    while(read(0,buf,1) > 0)
-        write(1,buf,1);
-    close(fd[1]);
-    close(0);
-    exit(0);
-}
+// void c_pipe_exe(char *cmd,int *tmp_fd, int *fd,int last_flag)
+// {
+//     char buf[1024];
+
+//     dup2(*tmp_fd,0);
+//     close(*tmp_fd);
+//     if(last_flag == 1)
+//     {
+//         dup2(fd[1],1);
+//         close(fd[1]);
+//     }
+//     while(read(0,buf,1) > 0)
+//         write(1,buf,1);
+//     close(fd[1]);
+//     close(0);
+//     exit(0);
+// }
 /*
 int create_pipe(char **cmd,int pipe_num)
 {
@@ -184,38 +186,178 @@ cmd[1]に文字列を
 
 */
 
-// typedef struct s_cmd {
-//     char *cmd;      //echo
-//     char **option;   //-n
-//     char **arg_str;  //aaa
-//     struct s_cmd *next;     
-// }   t_cmd;こんな感じで欲しい
+// int cmd_count(t_cmd *cmd)
+// {
+//     int i;
 
+//     i = 0;
+//     while(cmd != NULL)
+//     {
+//         i++;
+//         cmd = cmd->next;
+//     }
+//     return i;
+// }
 
+// void pipe_execute(t_cmd *cmd, t_info *info,int i)
+// {
+//     char buf[1024];
 
+//     if(i == 0)
+//     {
+//         char *send = "hello from first";
+//         close(info->pipe_fd[0]);
+//         dup2(info->pipe_fd[1],1);
+//         close(info->pipe_fd[1]);
+//         printf("%s\n",send);
+//         // close(1);なぜかここを閉めると動かない
+//         exit(0);
+//     }
+//     else
+//     {
+//         dup2(info->tmp_fd,0);
+//         close(info->tmp_fd);
+//         if(i != 2)
+//             dup2(info->pipe_fd[1],1);
+//         close(info->pipe_fd[1]);
+//         while(read(0,buf,1) > 0)
+//             write(1,buf,1);
+//         close(info->pipe_fd[1]);
+//         // printf("bbb\n");
+//         close(0);
+//         exit(0);
+//     }
 
-int count_pipe(char **argv,int argc)
+//     if(i != 0)
+//         dup2(info->tmp_fd,0);
+//     printf("fd :%d ",info->tmp_fd);
+//     close(info->tmp_fd);
+//     close(info->pipe_fd[0]);
+//     printf("i:%d %s\n",i,cmd->arg_str[i]);
+//     if(cmd->next != NULL)
+//     {
+//         dup2(info->pipe_fd[1],1);
+//         close(info->pipe_fd[1]);
+//     }
+//     if(i == 0)
+//     {}
+//     else
+//     {
+//         while(read(0,buf,1)> 0)
+//         write(1,buf,1);
+//     }
+//     // printf("%d aaa\n",i);
+//     close(1);
+//     exit(0);
+// }
+
+void pipe_execute(t_cmd *cmds, t_info *info)
 {
-    int i;
-    int j;
+    char buf[1024];
 
-    j = 0;
-    i = 0;
-    while(j < argc)
+    dup2(info->tmp_fd,0);
+    close(info->tmp_fd);
+    if(cmds->next != NULL)
     {
-        if(argv[j][0] == '|')
-            i++;
-        j++;
+        dup2(info->pipe_fd[1],1);
+        close(info->pipe_fd[1]);
     }
-    return i; 
+    if(cmds->flag != 1)
+    {
+        while(read(0,buf,1)>0)
+            write(1,buf,1);
+    }
+    printf("cmds: %s\n",cmds->cmd);
+    close(0);
+    exit(0);//ここで終わらせないとプロセスが2倍ずつ増え続ける
 }
 
-int main(int argc, char **argv)
+
+void pipe_create(t_cmd *cmd)
 {
-    int i;
+    t_info pipe_i;
 
-    i = count_pipe(argv,argc);
-    create_pipe(argv,i);
-    printf("%d\n",i);
+    pipe_i.tmp_fd = 0;
+    while(cmd != NULL)
+    {
+        pipe(pipe_i.pipe_fd);
+        pipe_i.pid = fork();
+        if(pipe_i.pid == 0)
+            pipe_execute(cmd,&pipe_i);
+        else
+        {
+            pipe_i.tmp_fd = pipe_i.pipe_fd[0];
+            close(pipe_i.pipe_fd[1]);
+        }
+        cmd = cmd->next;
+    }
+        waitpid(pipe_i.pid,NULL,0);
+}
 
+void builtins_select(t_cmd *cmds)
+{
+    // if(ft_strncmp(cmds->cmd,"echo",3))
+
+    // else if(ft_strncmp(cmds->cmd,"cd",2))
+    // else if(ft_strncmp(cmds->cmd,"pwd",3))
+    // else if(ft_strncmp(cmds->cmd,"export",6))
+    // else if(ft_strncmp(cmds->cmd,"unset",5))
+    // else if(ft_strncmp(cmds->cmd,"env",3))
+}
+
+void is_multiple_pipe(t_cmd *cmd)
+{
+    if(cmd->next != NULL)
+        pipe_create(cmd);
+    else
+        builtin_select(cmd);
+}
+
+int main() {
+    t_cmd cmd1;
+    t_cmd cmd2;
+    t_cmd cmd3;
+
+    // cmd1 の設定
+    cmd1.cmd = "echo";
+    cmd1.option = NULL;
+    cmd1.arg_str = malloc(sizeof(char*));
+    cmd1.arg_str[0] = "Hello";
+    cmd1.flag = 1;
+    cmd1.next = &cmd2;
+
+    // cmd2 の設定
+    cmd2.cmd = "grep";
+    cmd2.option = malloc(sizeof(char*));
+    cmd2.option[0] = "-i";
+    cmd2.arg_str = malloc(sizeof(char*));
+    cmd2.arg_str[0] = "world";
+    cmd2.flag = 0;
+    cmd2.next = &cmd3;
+
+    // cmd3 の設定
+    cmd3.cmd = "wc";
+    cmd3.option = NULL;
+    cmd3.arg_str = malloc(sizeof(char*));
+    cmd3.arg_str[0] = NULL; // 適切な値を設定する必要があります
+    cmd3.flag = 0;
+    cmd3.next = NULL;
+
+    // テスト用のデータを作成
+
+    t_info info;
+    info.pipe_fd[0] = -1;
+    info.pipe_fd[1] = -1;
+    info.tmp_fd = -1;
+    info.pid = -1;
+
+    // パイプの作成とテストの実行
+    is_multiple_pipe(&cmd1);
+
+    // メモリの解放
+    free(cmd1.arg_str);
+    free(cmd2.option);
+    free(cmd2.arg_str);
+
+    return 0;
 }
