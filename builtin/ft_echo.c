@@ -1,5 +1,4 @@
-#include "minishell.h"
-
+#include "builtins.h"
 void ft_echo (char *option, char **str)
 {
     int i;
@@ -20,13 +19,13 @@ void ft_echo (char *option, char **str)
 }
 
 
-int main(int argc, char**argv)
-{
-    int i;
-    i = 0;
-    argc = 0;
+// int main(int argc, char**argv)
+// {
+//     int i;
+//     i = 0;
+//     argc = 0;
     
-    ft_echo("-n", argv);
-    return 0;
-}
+//     ft_echo("-n", argv);
+//     return 0;
+// }
 

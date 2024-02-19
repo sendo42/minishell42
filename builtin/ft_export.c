@@ -1,5 +1,4 @@
-#include "minishell.h"
-
+#include "builtins.h"
 // // envpはexportで書き換えるから、どこかに取っておいて書き換えられるようにしないといけない。
 
 // /*
@@ -255,18 +254,18 @@ void write_env (t_env *env_str, char *str)
 }
 
 
-int main (int argc, char **argv, char **envp)
-{
-    t_env **word_list;
-    t_env *found_str;
+// int main (int argc, char **argv, char **envp)
+// {
+//     t_env **word_list;
+//     t_env *found_str;
 
-    word_list = (t_env **)malloc(sizeof(t_env));
-    word_list = ft_create_node(word_list, envp);
+//     word_list = (t_env **)malloc(sizeof(t_env));
+//     word_list = ft_create_node(word_list, envp);
 
-    // print_node(word_list);
-    found_str = ft_find_env(word_list, argv[1]);
-    printf("this is %s\n",found_str->menvp);
-    write_env (found_str, argv[1]);
-    print_node(word_list);
+//     // print_node(word_list);
+//     found_str = ft_find_env(word_list, argv[1]);
+//     printf("this is %s\n",found_str->menvp);
+//     write_env (found_str, argv[1]);
+//     print_node(word_list);
 
-}
+// }

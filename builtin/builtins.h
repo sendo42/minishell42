@@ -1,5 +1,3 @@
-#include <./builtins.h>
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -36,5 +34,4 @@ typedef struct s_info {
     pid_t pid;
 }   t_info;
 
-// cmd2 の設定
 void ft_cd (char *str);

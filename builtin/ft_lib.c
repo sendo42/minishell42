@@ -1,5 +1,4 @@
-#include "minishell.h"
-
+#include "builtins.h"
 int ft_strlen(char *str)
 {
     int i;

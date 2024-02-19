@@ -1,5 +1,4 @@
-#include "minishell.h"
-
+#include "builtins.h"
 // envpはexportで書き換えるから、どこかに取っておいて書き換えられるようにしないといけない。
 
 
@@ -18,8 +17,8 @@ void ft_env (char *envp[])
 
 
 
-int main(int argc, char **argv, char *envp[])
-{
-    ft_env(envp);
-    return 0;
-}
+// int main(int argc, char **argv, char *envp[])
+// {
+//     ft_env(envp);
+//     return 0;
+// }

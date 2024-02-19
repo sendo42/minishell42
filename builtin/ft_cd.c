@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "builtins.h"
 
 char *trim_follow_slash (char *str)
 {
@@ -66,17 +66,17 @@ void ft_cd (char *str)
     }
 }
 
-int main (int argc, char **argv)
-{
-    char *str;
+// int main (int argc, char **argv)
+// {
+//     char *str;
 
-    ft_cd(argv[1]);
-    return 0;
-    // https://www.ibm.com/docs/ja/spectrum-protect/8.1.9?topic=parameters-file-specification-syntax
-    // mac は1024 windows は256らしい。MAXPATHLENで検索
+//     ft_cd(argv[1]);
+//     return 0;
+//     // https://www.ibm.com/docs/ja/spectrum-protect/8.1.9?topic=parameters-file-specification-syntax
+//     // mac は1024 windows は256らしい。MAXPATHLENで検索
 
-        system("ls");
+//         system("ls");
 
-    // systemというコマンドでc言語内でコマンドが使える
-    //そのプロセスが終了すると親プロセスには反映されない。こプロセスには反映される。だから一つのプログラム内で行わなければならない。
-}
+//     // systemというコマンドでc言語内でコマンドが使える
+//     //そのプロセスが終了すると親プロセスには反映されない。こプロセスには反映される。だから一つのプログラム内で行わなければならない。
+// }

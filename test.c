@@ -296,8 +296,11 @@ void pipe_create(t_cmd *cmd)
 
 void builtins_select(t_cmd *cmds)
 {
-    // if(ft_strncmp(cmds->cmd,"echo",3))
-
+    if(ft_strncmp(cmds->cmd,"echo",3))
+    {
+        ft_cd(cmds->arg_str[0]);
+        system("pwd");
+    }
     // else if(ft_strncmp(cmds->cmd,"cd",2))
     // else if(ft_strncmp(cmds->cmd,"pwd",3))
     // else if(ft_strncmp(cmds->cmd,"export",6))
@@ -310,7 +313,7 @@ void is_multiple_pipe(t_cmd *cmd)
     if(cmd->next != NULL)
         pipe_create(cmd);
     else
-        builtin_select(cmd);
+        builtins_select(cmd);
 }
 
 int main() {
@@ -319,29 +322,29 @@ int main() {
     t_cmd cmd3;
 
     // cmd1 の設定
-    cmd1.cmd = "echo";
+    cmd1.cmd = "cd";
     cmd1.option = NULL;
     cmd1.arg_str = malloc(sizeof(char*));
-    cmd1.arg_str[0] = "Hello";
+    cmd1.arg_str[0] = NULL;
     cmd1.flag = 1;
-    cmd1.next = &cmd2;
+    cmd1.next = NULL;
 
-    // cmd2 の設定
-    cmd2.cmd = "grep";
-    cmd2.option = malloc(sizeof(char*));
-    cmd2.option[0] = "-i";
-    cmd2.arg_str = malloc(sizeof(char*));
-    cmd2.arg_str[0] = "world";
-    cmd2.flag = 0;
-    cmd2.next = &cmd3;
+    // // cmd2 の設定
+    // cmd2.cmd = "grep";
+    // cmd2.option = malloc(sizeof(char*));
+    // cmd2.option[0] = "-i";
+    // cmd2.arg_str = malloc(sizeof(char*));
+    // cmd2.arg_str[0] = "world";
+    // cmd2.flag = 0;
+    // cmd2.next = &cmd3;
 
-    // cmd3 の設定
-    cmd3.cmd = "wc";
-    cmd3.option = NULL;
-    cmd3.arg_str = malloc(sizeof(char*));
-    cmd3.arg_str[0] = NULL; // 適切な値を設定する必要があります
-    cmd3.flag = 0;
-    cmd3.next = NULL;
+    // // cmd3 の設定
+    // cmd3.cmd = "wc";
+    // cmd3.option = NULL;
+    // cmd3.arg_str = malloc(sizeof(char*));
+    // cmd3.arg_str[0] = NULL; // 適切な値を設定する必要があります
+    // cmd3.flag = 0;
+    // cmd3.next = NULL;
 
     // テスト用のデータを作成
 

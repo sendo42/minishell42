@@ -1,5 +1,4 @@
-#include "minishell.h"
-
+#include "builtins.h"
 void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
 	if (!dst && !src)
@@ -137,16 +136,16 @@ void print_node(t_env **node)
 }
 
 
-int main (int argc, char **argv, char **envp)
-{
-    t_env **word_list;
-    t_env *found_str;
+// int main (int argc, char **argv, char **envp)
+// {
+//     t_env **word_list;
+//     t_env *found_str;
 
-    word_list = (t_env **)malloc(sizeof(t_env));
-    word_list = ft_create_node(word_list, envp);
+//     word_list = (t_env **)malloc(sizeof(t_env));
+//     word_list = ft_create_node(word_list, envp);
 
-    // print_node(word_list);
-    found_str = ft_find_env(word_list, argv[1]);
-    detach_node(found_str);
-    print_node(word_list);
-}
+//     // print_node(word_list);
+//     found_str = ft_find_env(word_list, argv[1]);
+//     detach_node(found_str);
+//     print_node(word_list);
+// }
