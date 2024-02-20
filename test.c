@@ -296,16 +296,23 @@ void pipe_create(t_cmd *cmd)
 
 void builtins_select(t_cmd *cmds)
 {
-    if(ft_strncmp(cmds->cmd,"echo",3))
+    printf("cmd:%s\n",cmds->cmd);
+    if(ft_strncmp(cmds->cmd,"echo",3) == 0)
+    {
+        ft_echo(NULL,cmds->arg_str);
+        printf("neko\n");
+    }
+    else if(ft_strncmp(cmds->cmd,"cd",2) == 0)
     {
         ft_cd(cmds->arg_str[0]);
-        system("pwd");
+        printf("dog");
     }
-    // else if(ft_strncmp(cmds->cmd,"cd",2))
-    // else if(ft_strncmp(cmds->cmd,"pwd",3))
+    else if(ft_strncmp(cmds->cmd,"pwd",3) == 0)
+        ft_pwd();
+    // else if(ft_strncmp(cmds->cmd,"env",3))
+    //     ft_env();
     // else if(ft_strncmp(cmds->cmd,"export",6))
     // else if(ft_strncmp(cmds->cmd,"unset",5))
-    // else if(ft_strncmp(cmds->cmd,"env",3))
 }
 
 void is_multiple_pipe(t_cmd *cmd)
@@ -325,7 +332,7 @@ int main() {
     cmd1.cmd = "cd";
     cmd1.option = NULL;
     cmd1.arg_str = malloc(sizeof(char*));
-    cmd1.arg_str[0] = NULL;
+    cmd1.arg_str[0] = "builtin";
     cmd1.flag = 1;
     cmd1.next = NULL;
 
@@ -358,9 +365,9 @@ int main() {
     is_multiple_pipe(&cmd1);
 
     // メモリの解放
-    free(cmd1.arg_str);
-    free(cmd2.option);
-    free(cmd2.arg_str);
+    // free(cmd1.arg_str);
+    // free(cmd2.option);
+    // free(cmd2.arg_str);
 
     return 0;
 }

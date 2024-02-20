@@ -1,4 +1,5 @@
 #include "builtins.h"
+
 void ft_echo (char *option, char **str)
 {
     int i;

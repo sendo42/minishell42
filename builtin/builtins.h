@@ -12,6 +12,7 @@ int ft_strlen(char *str);
 char *ft_strjoin(char *str1, char *str2);
 int ft_strcmp_flag (char *str1, char *str2);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
+char	*ft_strdup(char *s1);
 
 typedef struct s_env 
 {
@@ -20,18 +21,7 @@ typedef struct s_env
     struct s_env *prev;
 } t_env;
 
-typedef struct s_cmd {
-    char *cmd;      //echo
-    char **option;   //-n
-    char **arg_str;  //aaa
-    int flag;
-    struct s_cmd *next;     
-}   t_cmd;
-
-typedef struct s_info {
-    int pipe_fd[2];
-    int tmp_fd;
-    pid_t pid;
-}   t_info;
-
 void ft_cd (char *str);
+void ft_env (char *envp[]);
+void ft_echo (char *option, char **str);
+void ft_pwd ();

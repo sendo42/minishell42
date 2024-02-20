@@ -211,49 +211,7 @@ create
 
 // メモリenv_dictを作る関数
 
-int ft_strlen_equal (char *str)
-{
-    int i;
-
-    i = 0;
-    if(str == NULL)
-        return -1;
-    while (str[i] != '\0' && str[i] != '=')
-        i++;
-    return i;
-}
-
-t_env *ft_find_env(t_env **env_dict, char *str)
-{
-    int i;
-    int word_length;
-
-    i = ft_strlen_equal(str);
-    t_env *current = *env_dict;
-
-    while (current != NULL)
-    {
-        word_length = ft_strlen_equal(current->menvp);
-        printf("i : %d word :%d str : %s\n",i, word_length, current->menvp);
-        if(ft_strncmp(current->menvp, str,i) == 0 && i == word_length )
-        {
-            printf("str id found :%s \n",current->menvp);
-            return current;
-        }
-        current = current->next;
-    }
-    return NULL;
-}
-
-
-void write_env (t_env *env_str, char *str)
-{
-    free(env_str->menvp);
-    env_str->menvp = NULL;
-    env_str->menvp = ft_strdup(str);
-}
-
-
+// void ft_export()
 // int main (int argc, char **argv, char **envp)
 // {
 //     t_env **word_list;

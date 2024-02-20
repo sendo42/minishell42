@@ -38,7 +38,6 @@ void cd_home (void)
         exit(1);//perror?
     free(str);
     system("pwd");
-    write(1,"b",1);
     return ;
 }
 
@@ -60,7 +59,7 @@ void ft_cd (char *str)
         }
         if(flag == -1)
         {
-            printf("cd: no such file or directory:%s",str);
+            printf("cd: no such file or directory:%s\n",str);
             exit(1);
         }
     }
